@@ -12,8 +12,8 @@ import progressbar
 
 def model_gen():
 	#model = VGG16(weights='imagenet', include_top=True, input_shape = (224, 224, 3))
-	#model=InceptionResNetV2(include_top=True,
-	model = inception_v4(include_top=True,
+	model=InceptionResNetV2(include_top=True,
+	#model = inception_v4(include_top=True,
                       weights='imagenet',
                       input_tensor=None,
                       input_shape=None,
@@ -37,8 +37,8 @@ def encodings(model, path):
 
 def encode_image():
 	#model = VGG16(weights='imagenet', include_top=True, input_shape = (224, 224, 3))
-	#model = InceptionResNetV2(include_top=True,
-	model = inception_v4(include_top=True,
+	model = InceptionResNetV2(include_top=True,
+	#model = inception_v4(include_top=True,
                       weights='imagenet',
                       input_tensor=None,
                       input_shape=None,
