@@ -3,10 +3,10 @@ warnings.filterwarnings("ignore")
 import numpy as np
 import pandas as pd
 from keras.models import Sequential
-from keras.layers import LSTM, Embedding, TimeDistributed, Dense, RepeatVector, Merge, Activation
+from keras.layers import Embedding, TimeDistributed, Dense, RepeatVector, Merge, Activation
 from keras.preprocessing import image, sequence
 import cPickle as pickle
-
+from mogrifier import MogrifierLSTM
 EMBEDDING_DIM = 128
 
 class scenedesc():
@@ -99,13 +99,13 @@ class scenedesc():
 		lang_model = Sequential()
 		
 		lang_model.add(Embedding(self.vocab_size, 256, input_length=self.max_length))
-		lang_model.add(LSTM(256,return_sequences=True))
+		lang_model.add(MogrifierLSTM(256,return_sequences=True))
 		lang_model.add(TimeDistributed(Dense(EMBEDDING_DIM)))
 
 		model = Sequential()
 		
 		model.add(Merge([image_model, lang_model], mode='concat'))
-		model.add(LSTM(1000,return_sequences=False))
+		model.add(MogrifierLSTM(1000,return_sequences=False))
 		model.add(Dense(self.vocab_size))
 		model.add(Activation('softmax'))
 		#model.summary()
