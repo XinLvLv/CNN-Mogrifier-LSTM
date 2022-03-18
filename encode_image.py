@@ -2,6 +2,7 @@ import warnings
 warnings.filterwarnings("ignore")
 #from vgg16 import VGG16
 from inception_resnet_v2 import InceptionResNetV2
+from improved_inception_v4 import inception_v4
 import numpy as np
 import os
 from keras.preprocessing import image
@@ -11,7 +12,8 @@ import progressbar
 
 def model_gen():
 	#model = VGG16(weights='imagenet', include_top=True, input_shape = (224, 224, 3))
-	model=InceptionResNetV2(include_top=True,
+	#model=InceptionResNetV2(include_top=True,
+	model = inception_v4(include_top=True,
                       weights='imagenet',
                       input_tensor=None,
                       input_shape=None,
@@ -35,7 +37,8 @@ def encodings(model, path):
 
 def encode_image():
 	#model = VGG16(weights='imagenet', include_top=True, input_shape = (224, 224, 3))
-	model = InceptionResNetV2(include_top=True,
+	#model = InceptionResNetV2(include_top=True,
+	model = inception_v4(include_top=True,
                       weights='imagenet',
                       input_tensor=None,
                       input_shape=None,
@@ -44,17 +47,17 @@ def encode_image():
 	image_encodings = {}
 	
 	train_imgs_id = open("Flickr8K_Text/Flickr_8k.trainImages.txt").read().split('\n')[:-1]
-	print len(train_imgs_id)
+	print (len(train_imgs_id))
 	test_imgs_id = open("Flickr8K_Text/Flickr_8k.testImages.txt").read().split('\n')[:-1]
 	images = []
 	images.extend(train_imgs_id)
 	images.extend(test_imgs_id)
-	print len(images)
+	print (len(images))
 	bar = progressbar.ProgressBar(maxval=len(images), \
     		widgets=[progressbar.Bar('=', '[', ']'), ' ', progressbar.Percentage()])
 	bar.start()
 	counter=1
-	print "Encoding images"
+	print ("Encoding images")
 
 	for img in images:
 		path = "Flickr8K_Data/"+str(img)
@@ -65,7 +68,7 @@ def encode_image():
 	bar.finish()
 	with open( "image_encodings.p", "wb" ) as pickle_f:
 		pickle.dump( image_encodings, pickle_f )
-	print "Encodings dumped into image_encodings.p"
+	print ("Encodings dumped into image_encodings.p")
 
 if __name__=="__main__":
 	encode_image()
